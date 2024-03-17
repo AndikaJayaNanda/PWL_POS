@@ -387,6 +387,12 @@ return [
             'icon_color' => 'cyan',
             'url' => '#',
         ],
+        ['header' => 'DAFTAR HALAMAN'],
+        [
+            'text' => 'Manage Category',
+            'url' => 'kategori/create',
+            'icon' => 'fas fa-fw fa-file',
+        ],
     ],
 
     /*
