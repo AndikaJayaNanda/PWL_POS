@@ -36,33 +36,32 @@ class KategoriController extends Controller
         return view('kategori.create');
     }
 
-    public function store(Request $request): RedirectResponse {
-        $validated = $request->validateWithBag('post',[
-            'title' => ['required','unique:posts','max:255'],
-            'body' => ['required'],
-            'kategori_kode' => $request->kodeKategori,
-            'kategori_nama' => $request->namaKategori,
+     // public function store(Request $request)
+    // {
+    //     KategoriModel::create([
+    //         'kategori_kode' => $request->kategori_kode,
+    //         'kategori_nama' => $request->kategori_nama,
+    //     ]);
+    //     return redirect('/kategori');
+    // }
+
+    // JS 6 B bagian 3
+    public function store(Request $request):RedirectResponse
+    {
+        $validation = $request->validate([
+            'kategori_kode' => 'bail|required|unique:m_kategori|max:255',
+            'kategori_nama' => 'required',
         ]);
-        
+
         return redirect('/kategori');
     }
 
-    public function edit($id){
+    public function edit($id)
+    {
         $data = KategoriModel::find($id);
-        if (!$data) {
-            return redirect('/kategori')->with('error', 'Kategori tidak ditemukan.');
-        }
-        return view('kategori.editkategori', ['data' => $data]);
+        return view('kategori.edit', ['data' => $data]);
     }
-    
-    public function hapus($id){
-        $data = KategoriModel::find($id);
-        if (!$data) {
-            return redirect('/kategori')->with('error', 'Kategori tidak ditemukan.');
-        }
-        $data->delete();
-        return redirect('/kategori');
-    }
+
     public function update($id, Request $request)
     {
         $kategori= KategoriModel::find($id);
@@ -71,6 +70,13 @@ class KategoriController extends Controller
         $kategori->kategori_nama = $request->kategori_nama;
 
         $kategori->save();
+        return redirect('/kategori');
+    }
+
+    public function delete($id)
+    {
+        $data = KategoriModel::find($id);
+        $data->delete();
         return redirect('/kategori');
     }
 
