@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\DataTables\KategoriDataTable;
 use App\Models\KategoriModel;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\VarDumper\Caster\RedisCaster;
@@ -35,11 +36,14 @@ class KategoriController extends Controller
         return view('kategori.create');
     }
 
-    public function store(Request $request) {
-        KategoriModel::create([
+    public function store(Request $request): RedirectResponse {
+        $validated = $request->validateWithBag('post',[
+            'title' => ['required','unique:posts','max:255'],
+            'body' => ['required'],
             'kategori_kode' => $request->kodeKategori,
             'kategori_nama' => $request->namaKategori,
         ]);
+        
         return redirect('/kategori');
     }
 
