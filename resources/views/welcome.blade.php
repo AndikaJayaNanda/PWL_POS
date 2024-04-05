@@ -1,54 +1,13 @@
-<<<<<<< HEAD
-@extends('layouts.app')
+@extends('layout.template')
 
-{{-- Customize layout sections --}}
-
-@section('subtitle', 'Welcome')
-@section('content_header_title', 'Home')
-@section('content_header_subtitle', 'Welcome')
-
-{{-- Content body: main page content --}}
-=======
-@extends('layout.app')
-
-{{-- Customize layout section --}}
-
-@section('subtitle', 'welcome')
-@section('content_header_title', 'Home')
-@section('content_header_subtitle', 'Welcome')
-
-{{-- Content body: main pae content --}}
->>>>>>> 7cd952757b355d9a864ab43598fb9aebd6201b6a
-
-@section('content_body')
-    <p>Welcome to this beautiful admin panel.</p>
-@stop
-
-<<<<<<< HEAD
-{{-- Push extra CSS --}}
-
-@push('css')
-
-{{-- Add here extra stylesheets --}}
-  
-{{-- <link rel="stylesheet" href="/css/admin_custom.css"> --}}
-@endpush
-
-{{-- Push extra scripts --}}
-@push('js')
-=======
-{{-- push extra css --}}
-
-@push('css')
-    {{-- Add here extra stylesheets --}}
-    {{-- <link rel="stylesheet" href="/css/admin_custom.css"> --}}
-@endpush
-
-{{-- Push exttra scripts --}}
-
-@push('js')
-    <script>
-        console.log('Hi, i`m using the Laravel.AdminLTE package!');
-    </script>
->>>>>>> 7cd952757b355d9a864ab43598fb9aebd6201b6a
-@endpush
+@section('content')
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Halo Apa Kabs</h3>
+        <div class="card-tools"></div>
+    </div>
+    <div class="card-body">
+        Selamat Datang semua, ini adalah halaman utama apliaksi ini
+    </div>
+</div>
+@endsection

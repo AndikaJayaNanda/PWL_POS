@@ -4,6 +4,7 @@ use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\LevelController;
 use App\Http\Controllers\POSController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\WelcomeController;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
@@ -41,9 +42,6 @@ Route::post('/kategori', [KategoriController::class, 'store'])->name('kategori.s
 Route::get('/kategori/edit/{id}', [KategoriController::class, 'edit'])->name('/edit');
 Route::get('/kategori/hapus/{id}', [KategoriController::class, 'hapus'])->name('/hapus');
 Route::put('/kategori/update/{id}}', [KategoriController::class, 'update'])->name('/update');
-<<<<<<< HEAD
-=======
 
-Route::resource('m_user', POSController::class);
->>>>>>> 7cd952757b355d9a864ab43598fb9aebd6201b6a
-
+//Jobsheet 7
+Route::get('/', [WelcomeController::class, 'index']);
