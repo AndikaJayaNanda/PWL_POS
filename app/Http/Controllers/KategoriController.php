@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\DataTables\KategoriDataTable;
+use App\Http\Requests\StorePostRequest;
 use App\Models\KategoriModel;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\VarDumper\Caster\RedisCaster;
+
 
 class KategoriController extends Controller
 {
@@ -36,6 +38,7 @@ class KategoriController extends Controller
         return view('kategori.create');
     }
 
+<<<<<<< HEAD
     public function store(Request $request): RedirectResponse {
         $validated = $request->validateWithBag('post',[
             'title' => ['required','unique:posts','max:255'],
@@ -44,25 +47,45 @@ class KategoriController extends Controller
             'kategori_nama' => $request->namaKategori,
         ]);
         
+=======
+     // public function store(Request $request)
+    // {
+    //     KategoriModel::create([
+    //         'kategori_kode' => $request->kategori_kode,
+    //         'kategori_nama' => $request->kategori_nama,
+    //     ]);
+    //     return redirect('/kategori');
+    // }
+
+    // JS 6 B bagian 3
+      // public function store(Request $request):RedirectResponse
+    // {
+    //     $validation = $request->validate([
+    //         'kategori_kode' => 'bail|required|unique:m_kategori|max:255',
+    //         'kategori_nama' => 'required',
+    //     ]);
+
+    //     return redirect('/kategori');
+    // }
+
+    // JS 6 B bagian 2
+    public function store(StorePostRequest $request): RedirectResponse{
+        $validated = $request->validated();
+
+        $validated = $request->safe()->only('kategori_kode', 'kategori_nama');
+        $validated = $request->safe()->except('kategori_kode', 'kategori_nama');
+
+>>>>>>> 7cd952757b355d9a864ab43598fb9aebd6201b6a
         return redirect('/kategori');
+    
     }
 
-    public function edit($id){
+    public function edit($id)
+    {
         $data = KategoriModel::find($id);
-        if (!$data) {
-            return redirect('/kategori')->with('error', 'Kategori tidak ditemukan.');
-        }
-        return view('kategori.editkategori', ['data' => $data]);
+        return view('kategori.edit', ['data' => $data]);
     }
-    
-    public function hapus($id){
-        $data = KategoriModel::find($id);
-        if (!$data) {
-            return redirect('/kategori')->with('error', 'Kategori tidak ditemukan.');
-        }
-        $data->delete();
-        return redirect('/kategori');
-    }
+
     public function update($id, Request $request)
     {
         $kategori= KategoriModel::find($id);
@@ -71,6 +94,13 @@ class KategoriController extends Controller
         $kategori->kategori_nama = $request->kategori_nama;
 
         $kategori->save();
+        return redirect('/kategori');
+    }
+
+    public function delete($id)
+    {
+        $data = KategoriModel::find($id);
+        $data->delete();
         return redirect('/kategori');
     }
 
