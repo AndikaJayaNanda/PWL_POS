@@ -1,57 +1,74 @@
-@extends('m_user/template')
+@extends('layouts.template')
+
 @section('content')
-    <div class="container mt-5">
-        <div class="row">
-            <div class="col-12">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h2 class="mb-0 text-primary">CRUD User</h2>
-                    <a class="btn btn-success" href="{{ route('m_user.create') }}">Input User</a>
-                </div>
-                @if ($message = Session::get('success'))
-                    <div class="alert alert-success">
-                        <p>{{ $message }}</p>
-                    </div>
-                @endif
-                <div class="card">
-                    <div class="card-header bg-primary text-white">
-                        <h5 class="mb-0">Daftar User</h5>
-                    </div>
-                    <div class="card-body">
-                        <table class="table table-striped table-hover">
-                            <thead>
-                                <tr class="bg-secondary text-white">
-                                    <th class="text-center">User ID</th>
-                                    <th class="text-center">Level Nama</th>
-                                    <th class="text-center">Username</th>
-                                    <th class="text-center">Nama</th>
-                                    <th class="text-center">Password</th>
-                                    <th class="text-center">Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($useri as $m_user)
-                                    <tr>
-                                        <td class="text-center">{{ $m_user->user_id }}</td>
-                                        <td class="text-center">{{ $m_user->level->level_nama }}</td>
-                                        <td class="text-center">{{ $m_user->username }}</td>
-                                        <td class="text-center">{{ $m_user->nama }}</td>
-                                        <td class="text-center">{{ $m_user->password }}</td>
-                                        <td class="text-center">
-                                            <form action="{{ route('m_user.destroy', $m_user->user_id) }}" method="POST">
-                                                <a class="btn btn-info btn-sm" href="{{ route('m_user.show', $m_user->user_id) }}"><i class="fas fa-eye"></i></a>
-                                                <a class="btn btn-warning btn-sm" href="{{ route('m_user.edit', $m_user->user_id) }}"><i class="fas fa-edit"></i></a>
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')"><i class="fas fa-trash"></i></button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+    <div class="card card-outline card-primary">
+        <div class="card-header">
+            <h3 class="card-title">{{ $page->title }}</h3>
+            <div class="card-tools">
+                <a class="btn btn-sm btn-primary mt-1" href="{{ url('user/create') }}">Tambah</a>
             </div>
+        </div>
+        <div class="card-body">
+            @if (session('success'))
+                <div class="alert alert-success">{{ session('success') }}</div>
+            @endif
+            @if (session('error'))
+                <div class="alert alert-danger">{{ session('error') }}</div>
+            @endif
+            <table class="table table-bordered table-striped table-hover table-sm" id="table_user">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Username</th>
+                        <th>Nama</th>
+                        <th>Level Pengguna</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+            </table>
         </div>
     </div>
 @endsection
+
+@push('css')
+@endpush
+@push('js')
+    <script>
+        $(document).ready(function() {
+            var dataUser = $('#table_user').DataTable({
+                serverSide: true, // serverSide: true, jika ingin menggunakan server side processing
+                ajax: {
+                    "url": "{{ url('user/list') }}",
+                    "dataType": "json",
+                    "type": "POST"
+                },
+                columns: [{
+                    data: "DT_RowIndex", // nomor urut dari laravel datatable addIndexColumn()
+                    className: "text-center",
+                    orderable: false,
+                    searchable: false
+                }, {
+                    data: "username",
+                    className: "",
+                    orderable: true, // orderable: true, jika ingin kolom ini bisa                     diurutkan
+                    searchable: true // searchable: true, jika ingin kolom ini bisa                    dicari
+                }, {
+                    data: "nama",
+                    className: "",
+                    orderable: true, // orderable: true, jika ingin kolom ini bisa                    diurutkan
+                    searchable: true // searchable: true, jika ingin kolom ini bisa                    dicari
+                }, {
+                    data: "level.level_nama",
+                    className: "",
+                    orderable: false, // orderable: true, jika ingin kolom ini bisa                    diurutkan
+                    searchable: false // searchable: true, jika ingin kolom ini bisa                    dicari
+                }, {
+                    data: "aksi",
+                    className: "",
+                    orderable: false, // orderable: true, jika ingin kolom ini bisa                    diurutkan
+                    searchable: false // searchable: true, jika ingin kolom ini bisa                    dicari
+                }]
+            });
+        });
+    </script>
+@endpush
