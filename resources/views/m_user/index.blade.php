@@ -63,10 +63,10 @@
                     }
                 },
                 columns: [{
-                    data: "DT_RowIndex", // nomor urut dari laravel datatable addIndexColumn()
-                    className: "text-center",
-                    orderable: false,
-                    searchable: false
+                    data: "user_id", // nomor urut dari laravel datatable addIndexColumn()
+                    className: "",
+                    orderable: true,
+                    searchable: true
                 }, {
                     data: "username",
                     className: "",

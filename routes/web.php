@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\LevelController;
 use App\Http\Controllers\POSController;
@@ -8,6 +10,7 @@ use App\Http\Controllers\WelcomeController;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BarangController;
+use App\Http\Controllers\ManagerController;
 use App\Http\Controllers\StokController;
 use App\Http\Controllers\TransaksiController;
 
@@ -113,4 +116,35 @@ Route::group(['prefix' => 'transaksi'],function () {
     Route::get('/{id}/edit', [TransaksiController::class, 'edit']);
     Route::put('/{id}', [TransaksiController::class, 'update']);
     Route::delete('/{id}', [TransaksiController::class, 'destroy']);
+});
+
+//JS 9
+// Rute untuk halaman login
+Route::get('login', [AuthController::class, 'index'])->name('login');
+// Rute untuk halaman registrasi
+Route::get('register', [AuthController::class, 'register'])->name('register');
+
+// Rute untuk memproses login setelah formulir login dikirim
+Route::post('proses_login', [AuthController::class, 'proses_login'])->name('proses_login');
+// Rute untuk logout
+Route::get('logout', [AuthController::class, 'logout'])->name('logout');
+
+// Rute untuk memproses registrasi setelah formulir registrasi dikirim
+Route::post('proses_register', [AuthController::class, 'proses_register'])->name('proses_register');
+
+// Semua rute di bawah ini memerlukan pengguna untuk login terlebih dahulu (middleware 'auth')
+Route::group(['middleware' => ['auth']], function() {
+
+  // Rute untuk admin (middleware 'cek_login:1')
+  Route::group(['middleware' => ['cek_login:1']], function() {
+      // Rute CRUD untuk mengelola admin (menggunakan resource route)
+      Route::resource('admin', AdminController::class);
+  });
+
+  // Rute untuk manager (middleware 'cek_login:2')
+  Route::group(['middleware' => ['cek_login:2']], function() {
+      // Rute CRUD untuk mengelola manager (menggunakan resource route)
+      Route::resource('manager', ManagerController::class);
+  });
+
 });
