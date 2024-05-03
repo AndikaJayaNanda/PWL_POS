@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\KategoriController;
 use App\Http\Controllers\Api\BarangController;
-
+use Spatie\FlareClient\Api;
 
 /*
 |--------------------------------------------------------------------------
@@ -59,3 +59,5 @@ Route::post('barangs' , [BarangController::class,'store']);
 Route::get('barangs/{barang}', [BarangController::class,'show']);
 Route::put("barangs/{barang}",[BarangController::class,'update']);
 Route::delete("barangs/{barang}",[BarangController::class,'destroy']);
+
+Route::post('/registers',App\Http\Controllers\Api\RegisterController::class)->name('registers');

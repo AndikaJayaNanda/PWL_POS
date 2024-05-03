@@ -35,5 +35,5 @@ class BarangController extends Controller
             'message' => 'Data terhapus'
         ]);
     }
-
+    
 }

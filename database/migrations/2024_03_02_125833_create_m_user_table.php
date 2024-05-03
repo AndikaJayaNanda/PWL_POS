@@ -29,7 +29,7 @@ return new class extends Migration
     // JS 6 D bagian 4
     public function up(): void
     {
-        Schema::create('useri', function (Blueprint $table) {
+        Schema::create('m_user', function (Blueprint $table) {
             $table->id('user_id');
             $table->unsignedBigInteger('level_id')->index();
             $table->string('username', 20)->unique();
@@ -46,6 +46,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('useri');
+        Schema::dropIfExists('m_user');
     }
 };
